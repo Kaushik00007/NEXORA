@@ -57,8 +57,6 @@ function App() {
 
   const { currentUser } = useSelector(state => state.user);
 
-
-  //set the menuOpen state to false if the screen size is less than 768px
   useEffect(() => {
     const resize = () => {
       if (window.innerWidth < 1110) {
