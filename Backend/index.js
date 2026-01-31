@@ -34,7 +34,7 @@ const connect = () => {
 
 
 app.use(express.json())
-// app.enable('trust proxy'); // optional, not needed for secure cookies
+// app.enable('trust proxy'); 
 // app.use(express.session({
 //     secret : '123456',
 //     key : 'sid',
