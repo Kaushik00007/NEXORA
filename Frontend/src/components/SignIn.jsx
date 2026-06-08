@@ -296,9 +296,34 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
       setLoading(true);
       findUserByEmail(email).then((res) => {
         if (res.status === 200) {
-          setShowOTP(true);
-          setResetDisabled(false);
-          setLoading(false);
+          setResettingPassword(true);
+          resetPassword(email, confirmedpassword).then((res) => {
+            if (res.status === 200) {
+              dispatch(
+                openSnackbar({
+                  message: "Password Reset Successfully",
+                  severity: "success",
+                })
+              );
+              setShowForgotPassword(false);
+              setEmail("");
+              setNewpassword("");
+              setConfirmedpassword("");
+              setLoading(false);
+              setResetDisabled(false);
+              setResettingPassword(false);
+            }
+          }).catch((err) => {
+            dispatch(
+              openSnackbar({
+                message: err.message,
+                severity: "error",
+              })
+            );
+            setLoading(false);
+            setResetDisabled(false);
+            setResettingPassword(false);
+          });
         }
         else if (res.status === 202) {
           setEmailError("User not found!")
@@ -354,9 +379,9 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
     setShowForgotPassword(false)
     setShowOTP(false)
   }
-  useEffect(() => {
-    performResetPassword();
-  }, [otpVerified]);
+  // useEffect(() => {
+  //   performResetPassword();
+  // }, [otpVerified]);
 
 
   //Google SignIn
