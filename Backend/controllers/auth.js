@@ -242,7 +242,7 @@ export const findUserByEmail = async (req, res, next) => {
 
 export const resetPassword = async (req, res, next) => {
 
-    if (!req.app.locals.resetSession) return res.status(440).send({ message: "Session expired" });
+    // if (!req.app.locals.resetSession) return res.status(440).send({ message: "Session expired" });
 
     const { email, password } = req.body;
     try {
