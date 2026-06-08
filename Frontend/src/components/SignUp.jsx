@@ -160,46 +160,44 @@ const SignUp = ({ setSignUpOpen, setSignInOpen }) => {
   const dispatch = useDispatch();
 
   const createAccount = () => {
-    if (otpVerified) {
-      dispatch(loginStart());
-      setDisabled(true);
-      setLoading(true);
-      try {
-        signUp({ name, email, password }).then((res) => {
-          if (res.status === 200) {
-            dispatch(loginSuccess(res.data));
-            dispatch(
-              openSnackbar({ message: `OTP verified & Account created successfully`, severity: "success" })
-            );
-            setLoading(false);
-            setDisabled(false);
-            setSignUpOpen(false);
-            setSignInOpen(false);
-          } else {
-            dispatch(loginFailure());
-            setcredentialError(`${res.data.message}`);
-            setLoading(false);
-            setDisabled(false);
-          }
-        });
-      } catch (err) {
-        dispatch(loginFailure());
-        setLoading(false);
-        setDisabled(false);
-        dispatch(
-          openSnackbar({
-            message: err.message,
-            severity: "error",
-          })
-        );
-      }
+    dispatch(loginStart());
+    setDisabled(true);
+    setLoading(true);
+    try {
+      signUp({ name, email, password }).then((res) => {
+        if (res.status === 200) {
+          dispatch(loginSuccess(res.data));
+          dispatch(
+            openSnackbar({ message: `Account created successfully`, severity: "success" })
+          );
+          setLoading(false);
+          setDisabled(false);
+          setSignUpOpen(false);
+          setSignInOpen(false);
+        } else {
+          dispatch(loginFailure());
+          setcredentialError(`${res.data.message}`);
+          setLoading(false);
+          setDisabled(false);
+        }
+      });
+    } catch (err) {
+      dispatch(loginFailure());
+      setLoading(false);
+      setDisabled(false);
+      dispatch(
+        openSnackbar({
+          message: err.message,
+          severity: "error",
+        })
+      );
     }
   };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (!disabled) {
-      setOtpSent(true);
+      createAccount();
     }
 
     if (name === "" || email === "" || password === "") {
@@ -228,9 +226,9 @@ const SignUp = ({ setSignUpOpen, setSignInOpen }) => {
     }
   }, [name, email, passwordCorrect, password, nameCorrect]);
 
-  useEffect(() => {
-    createAccount();
-  }, [otpVerified]);
+  // useEffect(() => {
+  //   createAccount();
+  // }, [otpVerified]);
 
   //validate email
   const validateEmail = () => {
