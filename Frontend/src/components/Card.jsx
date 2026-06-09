@@ -17,14 +17,17 @@ const Container = styled.div`
   margin: 12px 0px 8px 0px;
   font-size: 14px;
   font-weight: 500;
-  border-radius: 10px;
+  border-radius: 12px;
   background-color: ${({ theme }) => theme.card};
+  border: 1px solid ${({ theme }) => theme.soft};
   color: ${({ theme }) => theme.text};
   cursor: pointer;
-  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.09);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
   &:hover {
-    transition: all 0.6s ease-in-out;
-    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.5);
+    border: 1px solid ${({ theme }) => theme.primary + '50'};
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
   }
 `;
 
@@ -32,9 +35,9 @@ const Image = styled.img`
   height: 120px;
   width: 100%;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 8px;
   margin-top: 1px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 `;
 
 const Top = styled.div`
@@ -44,8 +47,8 @@ const Top = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   color: ${({ theme }) => theme.textSoft};
   margin-top: 6px;
   flex: 7;
