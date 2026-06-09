@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Add,
   Dashboard,
@@ -25,7 +25,6 @@ import { openSnackbar } from "../redux/snackbarSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { getUsers, notifications } from "../api/index";
-import { useNavigate } from 'react-router-dom';
 import { Avatar, CircularProgress } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 
@@ -87,27 +86,37 @@ const Image = styled.img`
 
 const Item = styled.div`
   display: flex;
-  color: ${({ theme }) => theme.itemText};
+  color: ${({ theme, active }) => active ? theme.primary : theme.itemText};
+  background-color: ${({ theme, active }) => active ? theme.primary + '15' : 'transparent'};
+  border-left: ${({ theme, active }) => active ? `3px solid ${theme.primary}` : '3px solid transparent'};
   align-items: center;
-  gap: 20px;
+  gap: 16px;
   cursor: pointer;
-  padding: 7.5px 26px;
+  padding: 10px 16px;
+  margin: 4px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
   &:hover {
     background-color: ${({ theme }) => theme.itemHover};
+    color: ${({ theme }) => theme.primary};
   }
 `;
 
 const Hr = styled.hr`
-  margin: 15px 15px 15px 0px;
-  border: 0.5px solid ${({ theme }) => theme.soft};
+  margin: 16px 24px;
+  border: none;
+  border-bottom: 1px solid ${({ theme }) => theme.soft};
 `;
 
 const Title = styled.h2`
-  font-size: 15px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.textSoft + "99"};
-  margin-bottom: 4px;
-  padding: 0px 26px;
+  font-size: 13px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.textSoft};
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  padding: 0px 28px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -124,6 +133,7 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const logoutUser = () => {
     dispatch(logout());
     navigate(`/`);
@@ -165,8 +175,8 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
       </Flex>
       <ContainerWrapper>
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <Item>
-            <DashboardRounded />
+          <Item active={location.pathname === '/'}>
+            <DashboardRounded sx={{ fontSize: "20px" }} />
             Dashboard
           </Item>
         </Link>
@@ -174,8 +184,8 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
           to="projects"
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <Item>
-            <AccountTreeRounded />
+          <Item active={location.pathname === '/projects'}>
+            <AccountTreeRounded sx={{ fontSize: "20px" }} />
             Projects
           </Item>
         </Link>
@@ -183,8 +193,8 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
           to="works"
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <Item>
-            <AddTaskRounded />
+          <Item active={location.pathname === '/works'}>
+            <AddTaskRounded sx={{ fontSize: "20px" }} />
             Your Works
           </Item>
         </Link>
@@ -192,8 +202,8 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
           to="community"
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <Item>
-            <Public />
+          <Item active={location.pathname === '/community'}>
+            <Public sx={{ fontSize: "20px" }} />
             Community
           </Item>
         </Link>
@@ -227,11 +237,11 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
         </Item>
         <Hr />
         <Item onClick={() => setDarkMode(!darkMode)}>
-          <SettingsBrightnessOutlinedIcon />
+          <SettingsBrightnessOutlinedIcon sx={{ fontSize: "20px" }} />
           {darkMode ? "Light" : "Dark"} Mode
         </Item>
         <Item onClick={() => logoutUser()}>
-          <Logout />
+          <Logout sx={{ fontSize: "20px" }} />
           Logout
         </Item>
         <Space />
