@@ -302,7 +302,7 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
         setLoading(false);
         dispatch(
           openSnackbar({
-            message: err.response.data.message,
+            message: err.response?.data?.message || err.message,
             severity: "error",
           })
         );
@@ -310,7 +310,7 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
   };
 
   const getTotalProjectsDone = () => {
-    setTotalProjectsDone(projects.filter((project) => project.status.toString().toLowerCase() === "completed").length);
+    setTotalProjectsDone(projects.filter((project) => project && project.status && project.status.toString().toLowerCase() === "completed").length);
     setTotalProjects(projects.length);
   };
 
@@ -335,7 +335,7 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
 
   const getTotalTasks = async () => {
     setTotalTasks(tasks.length);
-    setTotalTasksDone(tasks.filter((task) => task.status.toString().toLowerCase() === "completed").length);
+    setTotalTasksDone(tasks.filter((task) => task && task.status && task.status.toString().toLowerCase() === "completed").length);
   }
 
   useEffect(() => {
@@ -417,6 +417,7 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
                   <Masonry gutter="0px 16px">
                     {
                       projects
+                        .filter(p => p && p.updatedAt)
                         .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
                         .filter((item, index) => index < 6)
                         .map((project, id) => (
