@@ -141,7 +141,8 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
     try {
       notifications(token).then((res) => {
         setNotification(res.data);
-        console.log(notification);
+      }).catch((err) => {
+        console.log("Failed to fetch notifications", err);
       });
     } catch (error) {
       console.log(error);
@@ -180,6 +181,7 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
     setAnchorEl(null);
   };
 
+  //Open the notification dialog
   const [anchorEl2, setAnchorEl2] = useState(null);
   const open2 = Boolean(anchorEl2);
   const id2 = open2 ? "simple-popover" : undefined;
