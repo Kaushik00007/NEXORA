@@ -57,32 +57,36 @@ const TopBar = Styled.div`
 `;
 
 const CreateButton = Styled.div`
-  padding: 20px 30px;
+  padding: 12px 20px;
   text-align: left;
-  font-size: 16px;
-  font-weight: 800;
-  color: ${({ theme }) => theme.text};
-  border-radius: 12px;
-  background: linear-gradient(76.35deg, #F5D06F 15.89%, #C9972B 89.75%);
+  font-size: 14px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.primary};
+  border-radius: 8px;
+  background: ${({ theme }) => theme.primary + '10'};
+  border: 1px solid ${({ theme }) => theme.primary + '50'};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
   &:hover {
-    background: linear-gradient(76.35deg, #F5D06F 15.89%, #C9972B 89.75%);
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    background: ${({ theme }) => theme.primary + '20'};
+    box-shadow: 0px 4px 20px ${({ theme }) => theme.primary + '20'};
+    transform: translateY(-2px);
   }
-  gap: 14px;
+  gap: 12px;
 
-  ${({ btn }) =>
+  ${({ btn, theme }) =>
     btn === "team" &&
     `
-    background: linear-gradient(76.35deg, #FFC107 15.89%, #FFC107 89.75%);
+    color: ${theme.yellow};
+    background: ${theme.yellow + '10'};
+    border: 1px solid ${theme.yellow + '50'};
     &:hover {
-      background: linear-gradient(76.35deg, #FFC107 15.89%, #FFC107 89.75%);
-      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+      background: ${theme.yellow + '20'};
+      box-shadow: 0px 4px 20px ${theme.yellow + '20'};
     }
   `}
 `;
@@ -92,10 +96,10 @@ const Icon = Styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background: ${({ theme }) => theme.text};
-  color: ${({ theme }) => theme.primary};
+  background: transparent;
+  color: inherit;
   border-radius: 50%;
-  padding: 4px;
+  padding: 0px;
 `;
 
 const StatsWrapper = Styled.div`
@@ -108,18 +112,20 @@ const StatsWrapper = Styled.div`
 const StatCard = Styled.div`
   width: 100%;
   height: 100%;
-  padding: 4px;
+  padding: 8px;
   text-align: left;
-  margin: 2px;
   font-size: 18px;
   font-weight: 500;
   color: ${({ theme }) => theme.text};
   border-radius: 12px;
   background-color: ${({ theme }) => theme.card};
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.20);
-  transition: all 0.5s ease;
+  border: 1px solid ${({ theme }) => theme.soft};
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
   &:hover {
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    border: 1px solid ${({ theme }) => theme.primary + '50'};
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
   }
 `;
 
@@ -176,9 +182,10 @@ const Progress = Styled.div`
 `;
 
 const ProgressText = Styled.div`
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 32px;
+  font-weight: 700;
   color: ${({ theme }) => theme.text};
+  margin-left: 12px;
 `;
 
 const Desc = Styled.div`
@@ -400,24 +407,31 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
 
             <RecentProjects>
               <SectionTitle>Recent Projects</SectionTitle>
-              <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 2 }}>
-                <Masonry gutter="0px 16px">
-                  {
-                    projects
-                      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-                      .filter((item, index) => index < 6)
-                      .map((project, id) => (
-                        <ProjectCard
-                          key={project._id}
-                          item={project}
-                          index={id}
-                          status={project.status}
-                          tagColor={tagColors[3]}
-                        />
-                      ))
-                  }
-                </Masonry>
-              </ResponsiveMasonry>
+              {projects.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '40px 20px', color: 'gray', border: '1px dashed #373D3F', borderRadius: '12px' }}>
+                  <Typography variant="h6" style={{ fontWeight: 600, color: 'inherit' }}>No Recent Projects</Typography>
+                  <Typography variant="body2" style={{ marginTop: '8px' }}>Create a new project to get started.</Typography>
+                </div>
+              ) : (
+                <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 2 }}>
+                  <Masonry gutter="0px 16px">
+                    {
+                      projects
+                        .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+                        .filter((item, index) => index < 6)
+                        .map((project, id) => (
+                          <ProjectCard
+                            key={project._id}
+                            item={project}
+                            index={id}
+                            status={project.status}
+                            tagColor={tagColors[3]}
+                          />
+                        ))
+                    }
+                  </Masonry>
+                </ResponsiveMasonry>
+              )}
             </RecentProjects>
 
           </Left>
@@ -432,7 +446,7 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
               </CreateButton>
               <CreateButton btn="team" onClick={() => setNewTeam(true)}>
                 <Icon>
-                  <Add style={{ color: '#FFC107' }} />
+                  <Add style={{ color: 'inherit' }} />
                 </Icon>
                 Create New Team
               </CreateButton>
