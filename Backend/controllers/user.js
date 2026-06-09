@@ -56,6 +56,7 @@ export const getUser = async (req, res, next) => {
         select: "_id name email",
       }
     }).populate("projects").populate("works").populate("tasks");
+    if (!user) return next(createError(404, "User not found!"));
     //extract the notification from the user and send it to the client
     console.log(user)
     res.status(200).json(user);
@@ -70,6 +71,7 @@ export const getUser = async (req, res, next) => {
 export const getNotifications = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
+    if (!user) return next(createError(404, "User not found!"));
     //extract the notification from the user and send it to the client
     const notifications = user.notifications;
     const notificationArray = [];
@@ -184,6 +186,7 @@ export const unsubscribe = async (req, res, next) => {
 export const getUserProjects = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id).populate("projects")
+    if (!user) return next(createError(404, "User not found!"));
     const projects = []
     await Promise.all(user.projects.map(async (project) => {
       await Project.findById(project).populate("members.id", "_id  name email img").then((project) => {
@@ -205,6 +208,7 @@ export const getUserProjects = async (req, res, next) => {
 export const getUserTeams = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id).populate("teams")
+    if (!user) return next(createError(404, "User not found!"));
     const teams = []
     await Promise.all(user.teams.map(async (team) => {
       await Teams.findById(team.id).then((team) => {
