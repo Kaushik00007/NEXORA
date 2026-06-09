@@ -180,7 +180,6 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
     setAnchorEl(null);
   };
 
-  //Open the notification dialog
   const [anchorEl2, setAnchorEl2] = useState(null);
   const open2 = Boolean(anchorEl2);
   const id2 = open2 ? "simple-popover" : undefined;
