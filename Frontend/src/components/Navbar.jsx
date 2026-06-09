@@ -46,6 +46,11 @@ const Wrapper = styled.div`
 
 const IcoButton = styled(IconButton)`
   color: ${({ theme }) => theme.textSoft} !important;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: ${({ theme }) => theme.primary + '15'} !important;
+    color: ${({ theme }) => theme.primary} !important;
+  }
 `;
 
 const Search = styled.div`
@@ -59,7 +64,8 @@ const Search = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 100px;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.soft};
   color: ${({ theme }) => theme.textSoft};
   background-color: ${({ theme }) => theme.bgDark};
 `;
@@ -97,7 +103,7 @@ const Button = styled.button`
 const User = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   font-weight: 500;
   font-size: 18px;
   padding: 0px 8px;
