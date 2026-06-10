@@ -34,6 +34,7 @@ const Container = styled.div`
   height: 100vh;
   border-top-right-radius: 14px;
   border-bottom-right-radius: 14px;
+  border-right: 1px solid ${({ theme }) => theme.soft};
   color: ${({ theme }) => theme.text};
   font-size: 14px;
   position: sticky;
@@ -87,18 +88,18 @@ const Image = styled.img`
 const Item = styled.div`
   display: flex;
   color: ${({ theme, active }) => active ? theme.primary : theme.itemText};
-  background-color: ${({ theme, active }) => active ? theme.primary + '15' : 'transparent'};
+  background-color: ${({ theme, active }) => active ? theme.primary + '1A' : 'transparent'};
   border-left: ${({ theme, active }) => active ? `3px solid ${theme.primary}` : '3px solid transparent'};
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   cursor: pointer;
-  padding: 10px 16px;
+  padding: 8px 16px;
   margin: 4px 12px;
   border-radius: 8px;
-  font-weight: 500;
+  font-weight: ${({ active }) => active ? '600' : '500'};
   transition: all 0.2s ease-in-out;
   &:hover {
-    background-color: ${({ theme }) => theme.itemHover};
+    background-color: ${({ theme, active }) => active ? theme.primary + '25' : theme.itemHover};
     color: ${({ theme }) => theme.primary};
   }
 `;
