@@ -307,6 +307,10 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
   const token = localStorage.getItem("token");
   const handleSearch = async (e) => {
     setSearch(e.target.value);
+    if (!e.target.value) {
+      setUsers([]);
+      return;
+    }
     searchUsers(e.target.value, token)
       .then((res) => {
         if (res.status === 200) {
@@ -621,7 +625,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
                 </Search>
                 <UsersList>
                   {users.map((user) => (
-                    <MemberCard>
+                    <MemberCard key={user._id}>
                       <UserData>
                         <Avatar
                           sx={{ width: "34px", height: "34px" }}
@@ -636,8 +640,8 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
                       </UserData>
                       <Flex>
                         <Access>
-                          <Select name="Role" onChange={(e) => setAccess(e.target.value)}>
-                            <option value="" selected disabled hidden>Access</option>
+                          <Select name="Role" onChange={(e) => setAccess(e.target.value)} defaultValue="">
+                            <option value="" disabled hidden>Access</option>
                             <option value="Admin">Admin</option>
                             <option value="Member">Member</option>
                             <option value="Editor">Editor</option>
@@ -661,7 +665,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
                   )}
                   {selectedUsers.length > 0 && <div>Added Members :</div>}
                   {selectedUsers.map((user) => (
-                    <MemberCard>
+                    <MemberCard key={user.id}>
                       <UserData>
                         <Avatar
                           sx={{ width: "34px", height: "34px" }}
