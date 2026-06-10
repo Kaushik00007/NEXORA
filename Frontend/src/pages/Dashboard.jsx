@@ -57,36 +57,38 @@ const TopBar = Styled.div`
 `;
 
 const CreateButton = Styled.div`
-  padding: 12px 20px;
+  padding: 10px 20px;
   text-align: left;
   font-size: 14px;
   font-weight: 600;
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.bgDark};
   border-radius: 8px;
-  background: ${({ theme }) => theme.primary + '10'};
-  border: 1px solid ${({ theme }) => theme.primary + '50'};
+  background: linear-gradient(135deg, ${({ theme }) => theme.primary} 0%, ${({ theme }) => theme.primary}DD 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px ${({ theme }) => theme.primary}33;
   &:hover {
-    background: ${({ theme }) => theme.primary + '20'};
-    box-shadow: 0px 4px 20px ${({ theme }) => theme.primary + '20'};
+    box-shadow: 0 6px 16px ${({ theme }) => theme.primary}4D;
     transform: translateY(-2px);
+    filter: brightness(1.1);
   }
-  gap: 12px;
+  gap: 8px;
 
   ${({ btn, theme }) =>
     btn === "team" &&
     `
-    color: ${theme.yellow};
-    background: ${theme.yellow + '10'};
-    border: 1px solid ${theme.yellow + '50'};
+    color: ${theme.primary};
+    background: transparent;
+    border: 1px solid ${theme.primary}50;
+    box-shadow: none;
     &:hover {
-      background: ${theme.yellow + '20'};
-      box-shadow: 0px 4px 20px ${theme.yellow + '20'};
+      background: ${theme.primary}1A;
+      box-shadow: 0 4px 12px ${theme.primary}20;
     }
   `}
 `;
@@ -112,20 +114,28 @@ const StatsWrapper = Styled.div`
 const StatCard = Styled.div`
   width: 100%;
   height: 100%;
-  padding: 8px;
+  padding: 16px;
   text-align: left;
   font-size: 18px;
   font-weight: 500;
   color: ${({ theme }) => theme.text};
   border-radius: 12px;
-  background-color: ${({ theme }) => theme.card};
+  background: linear-gradient(145deg, ${({ theme }) => theme.card}, ${({ theme }) => theme.bgLighter});
   border: 1px solid ${({ theme }) => theme.soft};
-  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
   &:hover {
-    border: 1px solid ${({ theme }) => theme.primary + '50'};
-    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
+    border-color: ${({ theme }) => theme.primary}50;
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+    transform: translateY(-4px);
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
   }
 `;
 
@@ -207,9 +217,10 @@ const Title = Styled.div`
   height: 100%;
   text-align: left;
   margin: 2px;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   color: ${({ theme }) => theme.text};
+  letter-spacing: -0.5px;
 `;
 
 const Span = Styled.span`
@@ -357,7 +368,7 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
             <StatsWrapper>
               <StatCard>
                 <TotalProjects>
-                  <Title>Total Projects Done</Title>
+                  <Title>Projects</Title>
                   <Progress>
                     <LinearProgress
                       sx={{
@@ -380,7 +391,7 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
 
               <StatCard>
                 <TaskCompleted>
-                  <Title>Total Task Done</Title>
+                  <Title>Tasks</Title>
                   <Progress>
                     <LinearProgress
                       sx={{ borderRadius: "10px", height: 7, width: "80%" }}
@@ -408,9 +419,13 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
             <RecentProjects>
               <SectionTitle>Recent Projects</SectionTitle>
               {projects.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '40px 20px', color: 'gray', border: '1px dashed #373D3F', borderRadius: '12px' }}>
-                  <Typography variant="h6" style={{ fontWeight: 600, color: 'inherit' }}>No Recent Projects</Typography>
-                  <Typography variant="body2" style={{ marginTop: '8px' }}>Create a new project to get started.</Typography>
+                <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94A3B8', border: '1px dashed rgba(255,255,255,0.1)', borderRadius: '12px', background: 'rgba(255,255,255,0.02)' }}>
+                  <Typography variant="h6" style={{ fontWeight: 600, color: '#F8FAFC' }}>No Recent Projects</Typography>
+                  <Typography variant="body2" style={{ marginTop: '8px', marginBottom: '24px' }}>Create a new project to get started.</Typography>
+                  <CreateButton style={{ display: 'inline-flex' }} onClick={() => setNewProject(true)}>
+                    <Icon><Add style={{ color: 'inherit' }} /></Icon>
+                    Create Project
+                  </CreateButton>
                 </div>
               ) : (
                 <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 2 }}>
