@@ -25,8 +25,11 @@ const Container = styled.div`
   margin: 6px 6px 0px 6px;
   border-radius: 12px;
   z-index: 99;
-  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.06);
-  background-color: ${({ theme }) => theme.bgLighter};
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  background-color: ${({ theme }) => theme.bgLighter}CC;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid ${({ theme }) => theme.soft};
   @media screen and (max-width: 480px) {
     margin: 0px 0px 0px 0px;
     height: 60px;
@@ -64,10 +67,15 @@ const Search = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 8px;
+  border-radius: 9999px;
   border: 1px solid ${({ theme }) => theme.soft};
   color: ${({ theme }) => theme.textSoft};
   background-color: ${({ theme }) => theme.bgDark};
+  transition: all 0.2s ease;
+  &:focus-within {
+    border-color: ${({ theme }) => theme.primary};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.primary}33;
+  }
 `;
 const Input = styled.input`
   width: 100%;
@@ -201,8 +209,11 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
             <MenuIcon />
           </IcoButton>
           <Search>
-            <Input placeholder="Search" />
-            <SearchIcon style={{ marginRight: "20px", marginLeft: "20px" }} />
+            <Input placeholder="Search..." />
+            <div style={{ display: 'flex', alignItems: 'center', marginRight: '16px', gap: '8px' }}>
+              <div style={{ fontSize: '12px', background: 'rgba(255,255,255,0.1)', padding: '2px 6px', borderRadius: '4px', display: 'flex', alignItems: 'center', fontWeight: '500' }}>Ctrl + K</div>
+              <SearchIcon style={{ fontSize: '20px' }} />
+            </div>
           </Search>
           <User>
             {currentUser ? (
