@@ -362,7 +362,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
             dispatch(
               openSnackbar({
                 message: `Invitation sent to ${user.name}`,
-                type: "success",
+                severity: "success",
               })
             );
           })
@@ -378,7 +378,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
             dispatch(
               openSnackbar({
                 message: `Invitation sent to ${user.name}`,
-                type: "success",
+                severity: "success",
               })
             );
           })
@@ -387,7 +387,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
             dispatch(
               openSnackbar({
                 message: `Invitation cant be sent to ${user.name}`,
-                type: "error",
+                severity: "error",
               })
             );
           });
@@ -444,7 +444,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
           dispatch(
             openSnackbar({
               message: "Project created successfully",
-              type: "success",
+              severity: "success",
             })
           );
         })
@@ -456,7 +456,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
           dispatch(
             openSnackbar({
               message: "Something went wrong",
-              type: "error",
+              severity: "error",
             })
           );
         });
@@ -470,7 +470,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
           dispatch(
             openSnackbar({
               message: "Project created successfully",
-              type: "success",
+              severity: "success",
             })
           );
         })
@@ -482,7 +482,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
           dispatch(
             openSnackbar({
               message: "Something went wrong",
-              type: "error",
+              severity: "error",
             })
           );
         });

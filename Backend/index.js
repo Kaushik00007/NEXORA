@@ -12,12 +12,13 @@ const app = express();
 dotenv.config();
 
 /** Middlewares */
-app.use(express.json());
 const corsConfig = {
     credentials: true,
     origin: "http://localhost:3000",
 };
 app.use(cors(corsConfig));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(morgan('tiny'));
 app.disable('x-powered-by');
 
@@ -33,7 +34,7 @@ const connect = () => {
 };
 
 
-app.use(express.json())
+
 // app.enable('trust proxy'); 
 // app.use(express.session({
 //     secret : '123456',
